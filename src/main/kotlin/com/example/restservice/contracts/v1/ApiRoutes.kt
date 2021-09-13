@@ -15,4 +15,10 @@ open class ApiRoutes {
         }
     }
 
+    class Auth {
+        companion object {
+            const val register: String = base + "/register"
+        }
+    }
+
 }
