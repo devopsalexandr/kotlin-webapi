@@ -14,7 +14,7 @@ import javax.persistence.*
 class User(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Int,
+    var id: Int? = null,
 
     @Column(name = "username")
     val username: String,
