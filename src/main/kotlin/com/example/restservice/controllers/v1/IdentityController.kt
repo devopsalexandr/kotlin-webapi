@@ -8,6 +8,7 @@ import com.example.restservice.domainModel.services.authService.Models.UserDTO
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 
@@ -18,7 +19,7 @@ class IdentityController : ApiController() {
     private lateinit var authService: AuthService
 
 
-    @GetMapping(ApiRoutes.Auth.register)
+    @PostMapping(ApiRoutes.Auth.register)
     fun register(@RequestBody request: RegisterRequest): ResponseEntity<RegisterResponse> {
 
         val userDTO = UserDTO( // ToDo: refactoring with Mapper -> MapStruct

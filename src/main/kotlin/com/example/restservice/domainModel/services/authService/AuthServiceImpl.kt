@@ -16,9 +16,9 @@ class AuthServiceImpl : AuthService {
     @Autowired
     private lateinit var userRepository: UserRepository
 
-    private lateinit var passwordEncoder: BCryptPasswordEncoder
+    private var passwordEncoder = BCryptPasswordEncoder()
 
-    fun registerUser(user: UserDTO): RegisterResult {
+    override fun registerUser(user: UserDTO): RegisterResult {
 
         //Todo some logic for check if user exist by username etc...
         val foundUser = userRepository.findByEmail(user.email)
