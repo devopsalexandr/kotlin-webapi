@@ -40,6 +40,7 @@ dependencies {
 	implementation("io.jsonwebtoken:jjwt-api:0.11.2")
 	implementation("org.jetbrains.kotlin:kotlin-noarg:1.5.21")
 	implementation("org.springframework.security:spring-security-crypto:5.5.1")
+	implementation("org.springframework.security:spring-security-core:5.5.1")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
