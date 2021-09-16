@@ -3,8 +3,17 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
 	id("org.springframework.boot") version "2.4.10"
 	id("io.spring.dependency-management") version "1.0.11.RELEASE"
+	id("org.jetbrains.kotlin.plugin.noarg") version "1.5.30"
+	id("org.jetbrains.kotlin.plugin.jpa") version "1.5.30"
 	kotlin("jvm") version "1.4.32"
 	kotlin("plugin.spring") version "1.4.32"
+	kotlin("plugin.allopen") version "1.4.32"
+}
+
+allOpen {
+	annotation("javax.persistence.Entity")
+	annotation("javax.persistence.Embeddable")
+	annotation("javax.persistence.MappedSuperclass")
 }
 
 group = "com.example"
@@ -29,7 +38,12 @@ dependencies {
 	implementation("io.jsonwebtoken:jjwt-impl:0.11.2")
 	implementation("io.jsonwebtoken:jjwt-jackson:0.11.2")
 	implementation("io.jsonwebtoken:jjwt-api:0.11.2")
-
+	implementation("org.jetbrains.kotlin:kotlin-noarg:1.5.21")
+	implementation("org.springframework.security:spring-security-crypto:5.5.1")
+	implementation("org.springframework.security:spring-security-core:5.5.1")
+	implementation("org.springframework.security:spring-security-config:5.5.1")
+	implementation("org.springframework.security:spring-security-web:5.5.1")
+	implementation("org.springframework.boot:spring-boot-starter-security:2.5.4")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
@@ -43,4 +57,8 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+
+noArg {
+	invokeInitializers = true
 }
