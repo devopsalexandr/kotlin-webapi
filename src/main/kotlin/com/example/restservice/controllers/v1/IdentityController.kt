@@ -8,6 +8,7 @@ import com.example.restservice.domainModel.repositories.userRepository.UserRepos
 import com.example.restservice.domainModel.services.authService.AuthService
 import com.example.restservice.domainModel.services.authService.Models.UserDTO
 import com.example.restservice.security.jwt.JwtTokenProvider
+import com.sun.security.auth.UserPrincipal
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.security.authentication.AuthenticationManager
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
+import java.security.Principal
 
 @RestController
 class IdentityController : ApiController() {
@@ -77,8 +79,9 @@ class IdentityController : ApiController() {
     }
 
     @GetMapping(ApiRoutes.Identity.profile)
-    fun profile(): ResponseEntity<String>
+    fun profile(principal: Principal): ResponseEntity<String>
     {
+//        principal.
         return ResponseEntity.ok("asdasd")
     }
 }

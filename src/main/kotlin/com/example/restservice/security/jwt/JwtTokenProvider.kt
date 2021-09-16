@@ -4,6 +4,7 @@ import com.example.restservice.security.exceptions.JwtAuthException
 import io.jsonwebtoken.JwtException
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
+import io.jsonwebtoken.io.Decoders
 import io.jsonwebtoken.io.Encoders
 import io.jsonwebtoken.security.Keys
 import org.springframework.beans.factory.annotation.Autowired
@@ -20,7 +21,10 @@ import java.nio.charset.StandardCharsets
 import java.security.Key
 import java.security.KeyPair
 import java.util.*
+import javax.crypto.SecretKey
+import javax.crypto.spec.SecretKeySpec
 import javax.servlet.http.HttpServletRequest
+import javax.xml.bind.DatatypeConverter
 
 @PropertySource("classpath:application.properties")
 @Component
@@ -31,12 +35,17 @@ class JwtTokenProvider {
     lateinit var userDetailsService: UserDetailsService
 
 //    @Value("\${jwt.token.secret}")
-//    private var secret: String = "i love you"
+    private var secret: String = "930a0029225aa4c28b8ef095b679285eaae27078930a0029225aa4c28b8ef095b679285eaae27078930a0029225aa4c28b8ef095b679285eaae27078"
     val keyPair: KeyPair = Keys.keyPairFor(SignatureAlgorithm.RS256)
 
 
     @Value("\${jwt.token.expiredTime}")
     private lateinit var expiredTime: String
+
+    protected fun getEncodedSecretKey(): SecretKey {
+        val keyBytes = Decoders.BASE64.decode(secret);
+        return Keys.hmacShaKeyFor(keyBytes);
+    }
 
     @Bean
     fun passwordEncoder(): BCryptPasswordEncoder? = BCryptPasswordEncoder()
@@ -47,22 +56,24 @@ class JwtTokenProvider {
         val now = Date()
         val validate = Date(now.time + expiredTime.toInt())
 
+
+
         return Jwts.builder()
             .setClaims(claims)
             .setIssuedAt(now)
             .setExpiration(validate)
-            .signWith(keyPair.private, SignatureAlgorithm.RS256)
+            .signWith(getEncodedSecretKey())
             .compact()
     }
 
     fun getAuthentication(token: String): Authentication?
     {
         val userDetails = userDetailsService.loadUserByUsername(getUsername(token))
-        return UsernamePasswordAuthenticationToken(userDetails, "")
+        return UsernamePasswordAuthenticationToken(userDetails, "", userDetails.authorities)
     }
 
     fun getUsername(token: String): String
-        = Jwts.parserBuilder().setSigningKey(keyPair.public).build().parseClaimsJws(token).body.subject
+        = Jwts.parserBuilder().setSigningKey(getEncodedSecretKey()).build().parseClaimsJws(token).body.subject
 
     fun resolveToken(request: HttpServletRequest): String?
     {
@@ -78,8 +89,9 @@ class JwtTokenProvider {
     {
         try {
 
-            val claims = Jwts.parserBuilder().setSigningKey(keyPair.public).build().parseClaimsJws(token)
-            return !claims.body.expiration.before(Date())
+            val claims = Jwts.parserBuilder().setSigningKey(getEncodedSecretKey()).build().parseClaimsJws(token)
+            val s = !claims.body.expiration.before(Date())
+            return s
 
         } catch (e: JwtException){
             throw JwtAuthException("Token is expired and invalid")

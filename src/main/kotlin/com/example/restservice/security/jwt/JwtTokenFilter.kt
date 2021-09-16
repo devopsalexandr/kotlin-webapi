@@ -1,5 +1,4 @@
 package com.example.restservice.security.jwt
-
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.filter.GenericFilterBean
 import javax.servlet.FilterChain
