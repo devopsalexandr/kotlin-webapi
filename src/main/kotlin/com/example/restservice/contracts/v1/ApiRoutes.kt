@@ -15,9 +15,11 @@ open class ApiRoutes {
         }
     }
 
-    class Auth {
+    class Identity {
         companion object {
             const val register: String = base + "/register"
+            const val login: String = base + "/login"
+            const val profile: String = base + "/profile"
         }
     }
 

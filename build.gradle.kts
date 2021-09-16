@@ -41,6 +41,9 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-noarg:1.5.21")
 	implementation("org.springframework.security:spring-security-crypto:5.5.1")
 	implementation("org.springframework.security:spring-security-core:5.5.1")
+	implementation("org.springframework.security:spring-security-config:5.5.1")
+	implementation("org.springframework.security:spring-security-web:5.5.1")
+	implementation("org.springframework.boot:spring-boot-starter-security:2.5.4")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
