@@ -81,7 +81,6 @@ class IdentityController : ApiController() {
     @GetMapping(ApiRoutes.Identity.profile)
     fun profile(principal: Principal): ResponseEntity<String>
     {
-//        principal.
-        return ResponseEntity.ok("asdasd")
+        return ResponseEntity.ok(principal.name)
     }
 }
